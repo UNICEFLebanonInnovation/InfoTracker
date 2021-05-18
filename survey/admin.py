@@ -7,17 +7,20 @@ from import_export.admin import ImportExportModelAdmin, ExportActionModelAdmin
 
 from survey.models import *
 # from survey.forms import ResearchForm, KnowledgeTrackerForm
-from .utils import has_group
-
+from .utils import has_group , get_default_formats
 
 class MessageResource(resources.ModelResource):
     class Meta:
         model = Message
         fields = (
-            'msg_number',
+            'id',
+            # 'msg_number',
+            'topic',
+            'language',
+            'channel',
             'audience',
             'sector',
-            'adapted_by',
+            # 'adapted_by',
             'desired_output',
             'message_type',
             'english_message',
@@ -36,11 +39,13 @@ def custom_titled_filter(title):
 
 
 @admin.register(Message)
-class MessageAdmin(ExportActionModelAdmin, VersionAdmin):
+class MessageAdmin(ImportExportModelAdmin, VersionAdmin):
     resource_class = MessageResource
+
     # form = KnowledgeTrackerForm
     list_display = (
         'msg_number',
+        'topic',
         'audience',
         'sector',
         # 'adapted_by',
@@ -52,6 +57,7 @@ class MessageAdmin(ExportActionModelAdmin, VersionAdmin):
     date_hierarchy = 'created'
 
     list_filter = (
+        'topic',
         'audience',
         'sector',
         'adapted_by',
@@ -59,6 +65,7 @@ class MessageAdmin(ExportActionModelAdmin, VersionAdmin):
         'message_type',
     )
     suit_list_filter_horizontal = (
+        'topic',
         'audience',
         'sector',
         'adapted_by',
@@ -67,6 +74,7 @@ class MessageAdmin(ExportActionModelAdmin, VersionAdmin):
     )
     search_fields = (
         'msg_number',
+        'topic',
         'audience',
         'sector',
         'adapted_by',
@@ -83,11 +91,14 @@ class MessageAdmin(ExportActionModelAdmin, VersionAdmin):
         ('Message details', {
             'fields': [
                 'msg_number',
+                'topic',
                 'audience',
+                'language',
                 'sector',
                 'adapted_by',
                 'desired_output',
                 'message_type',
+                'channel',
                 'relevant_link',
             ]
         }),
@@ -103,10 +114,10 @@ class MessageAdmin(ExportActionModelAdmin, VersionAdmin):
         })
     ]
 
-    # def has_import_permission(self, request, obj=None):
-    #     if request.user.is_superuser:
-    #         return True
-    #     return False
+    def has_import_permission(self, request, obj=None):
+        if request.user.is_superuser:
+            return True
+        return False
     #
     # def has_delete_permission(self, request, obj=None):
     #     if request.user.is_superuser:
@@ -193,8 +204,117 @@ class MessageAdmin(ExportActionModelAdmin, VersionAdmin):
     #     return KnowledgeTracker.objects.all()
 
 
-admin.site.register(Audience)
-admin.site.register(Sector)
-admin.site.register(Source)
-admin.site.register(Output)
-admin.site.register(Type)
+class TopicResource(resources.ModelResource):
+    class Meta:
+        model = Topic
+        fields = (
+            'id',
+            'name',
+        )
+        export_order = fields
+
+class TopicAdmin(ImportExportModelAdmin):
+    resource_class = TopicResource
+
+
+
+class LanguageResource(resources.ModelResource):
+    class Meta:
+        model = Language
+        fields = (
+            'id',
+            'name',
+        )
+        export_order = fields
+
+class LanguageAdmin(ImportExportModelAdmin):
+    resource_class = LanguageResource
+
+
+
+class ChannelResource(resources.ModelResource):
+    class Meta:
+        model = Channel
+        fields = (
+            'id',
+            'name',
+        )
+        export_order = fields
+
+class ChannelAdmin(ImportExportModelAdmin):
+    resource_class = ChannelResource
+
+
+class AudienceResource(resources.ModelResource):
+    class Meta:
+        model = Audience
+        fields = (
+            'id',
+            'name',
+        )
+        export_order = fields
+
+class AudienceAdmin(ImportExportModelAdmin):
+    resource_class = AudienceResource
+
+
+class SectorResource(resources.ModelResource):
+    class Meta:
+        model = Sector
+        fields = (
+            'id',
+            'name',
+        )
+        export_order = fields
+
+class SectorAdmin(ImportExportModelAdmin):
+    resource_class = SectorResource
+
+
+class SourceResource(resources.ModelResource):
+    class Meta:
+        model = Source
+        fields = (
+            'id',
+            'name',
+        )
+        export_order = fields
+
+class SourceAdmin(ImportExportModelAdmin):
+    resource_class = SourceResource
+
+
+class OutputResource(resources.ModelResource):
+    class Meta:
+        model = Output
+        fields = (
+            'id',
+            'name',
+        )
+        export_order = fields
+
+class OutputAdmin(ImportExportModelAdmin):
+    resource_class = OutputResource
+
+
+class TypeResource(resources.ModelResource):
+    class Meta:
+        model = Type
+        fields = (
+            'id',
+            'name',
+        )
+        export_order = fields
+
+class TypeAdmin(ImportExportModelAdmin):
+    resource_class = TypeResource
+
+admin.site.register(Topic, TopicAdmin)
+admin.site.register(Language, LanguageAdmin)
+admin.site.register(Channel, ChannelAdmin)
+
+admin.site.register(Audience, AudienceAdmin)
+admin.site.register(Sector, SectorAdmin)
+admin.site.register(Source, SourceAdmin)
+admin.site.register(Output, OutputAdmin)
+admin.site.register(Type, TypeAdmin)

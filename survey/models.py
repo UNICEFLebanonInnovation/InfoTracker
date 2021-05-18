@@ -6,6 +6,67 @@ from tinymce.models import HTMLField
 from django.contrib.postgres.fields import ArrayField, JSONField
 
 
+class Topic(TimeStampedModel):
+    name = models.CharField(
+        max_length=500,
+        blank=True,
+        null=False,
+        unique=True,
+        verbose_name='Name'
+    )
+
+    class Meta:
+        ordering = ['name']
+        verbose_name = "Topic"
+        verbose_name_plural = "Topics"
+
+    def __unicode__(self):
+        return self.name
+
+    def __str__(self):
+        return self.name
+
+class Language(TimeStampedModel):
+    name = models.CharField(
+        max_length=500,
+        blank=True,
+        null=False,
+        unique=True,
+        verbose_name='Name'
+    )
+
+    class Meta:
+        ordering = ['name']
+        verbose_name = "Language"
+        verbose_name_plural = "Languages"
+
+    def __unicode__(self):
+        return self.name
+
+    def __str__(self):
+        return self.name
+
+class Channel(TimeStampedModel):
+    name = models.CharField(
+        max_length=500,
+        blank=True,
+        null=False,
+        unique=True,
+        verbose_name='Name'
+    )
+
+    class Meta:
+        ordering = ['name']
+        verbose_name = "Channel"
+        verbose_name_plural = "Channels"
+
+    def __unicode__(self):
+        return self.name
+
+    def __str__(self):
+        return self.name
+
+
 class Audience(TimeStampedModel):
     name = models.CharField(
         max_length=500,
@@ -25,7 +86,6 @@ class Audience(TimeStampedModel):
 
     def __str__(self):
         return self.name
-
 
 class Sector(TimeStampedModel):
     name = models.CharField(
@@ -110,12 +170,32 @@ class Type(TimeStampedModel):
     def __str__(self):
         return self.name
 
-
 class Message(TimeStampedModel):
     msg_number = models.CharField(
         max_length=100,
         null=True, blank=True,
         verbose_name='Message number'
+    )
+    topic = models.ForeignKey(
+        Topic,
+        blank=False, null=True,
+        related_name='+',
+        on_delete=models.DO_NOTHING,
+        verbose_name='Topic'
+    )
+    language = models.ForeignKey(
+        Language,
+        blank=False, null=True,
+        related_name='+',
+        on_delete=models.DO_NOTHING,
+        verbose_name='Language'
+    )
+    channel = models.ForeignKey(
+        Channel,
+        blank=False, null=True,
+        related_name='+',
+        on_delete=models.DO_NOTHING,
+        verbose_name='Channel'
     )
     audience = models.ForeignKey(
         Audience,
@@ -132,6 +212,11 @@ class Message(TimeStampedModel):
         verbose_name='Sector'
     )
     adapted_by = models.ManyToManyField(
+        Source,
+        related_name='+',
+        verbose_name='Adapted from Below Source'
+    )
+    adapted_by_2 = models.ManyToManyField(
         Source,
         related_name='+',
         verbose_name='Adapted from Below Source'
@@ -209,3 +294,4 @@ class Message(TimeStampedModel):
 
     def __str__(self):
         return self.msg_number
+
