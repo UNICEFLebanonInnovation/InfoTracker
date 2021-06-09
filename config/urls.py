@@ -18,7 +18,7 @@ from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
 
-# from survey.views import IndexView, MapsView, ResearchesView, KnowledgeTrackerList, KnowledgeTrackerChartsView
+from survey.views import MessageList
 
 # The following uses the static() helper function,
 # which only works when in development mode (using DEBUG).
@@ -28,7 +28,7 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     # url(r'^$', IndexView.as_view(), name='home'),
-    # url(r'^Dashboard', KnowledgeTrackerChartsView.as_view(), name='dashboard_kmtracker'),
+    url(r'^Dashboard', MessageList.as_view(), name='dashboard'),
     # url(r'^List', KnowledgeTrackerList.as_view(), name='list_kmtracker'),
     # url(r'^Dashboard/Researches/$', ResearchesView.as_view(), name='dashboard_researches'),
     url(r'^', admin.site.urls),

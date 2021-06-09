@@ -33,17 +33,20 @@
     .table-list .card-body {
         padding-top: 0px;
     }
+    .fixed-sidebar .app-main .app-main__outer {
+        padding-left: 0px;
+    }
 </style>
 
 <div class="app-page-title"><div class="page-title-wrapper"><div class="page-title-heading"><div class="page-title-icon"><i class="icon pe-7s-server icon-gradient bg-ripe-malin"></i></div><div>
-    The Knowledge Tracker - List of Issues
+    Massage List
     <div class="page-title-subheading">
                                     </div>
 </div></div><div class="page-title-actions">
 <div class="widget-chart widget-chart2 text-left card-btm-border card-shadow-primary border-primary card">
                                 <div class="widget-chat-wrapper-outer">
                                     <div class="widget-chart-content">
-                                        <div class="widget-title opacity-5 text-uppercase">Total Issues</div>
+                                        <div class="widget-title opacity-5 text-uppercase">Total Massages</div>
                                         <div class="widget-numbers mt-2 fsize-4 mb-0 w-100">
                                             <div class="widget-chart-flex align-items-center">
                                                 <div>
@@ -60,18 +63,7 @@
 </div></div></div>
 
 <div class="container">
-                            <ul class="tabs-animated-shadow tabs-animated nav nav-justified tabs-rounded-lg">
-                                <li class="nav-item">
-                                    <a role="tab" class="nav-link" href="{% url 'dashboard_kmtracker' %}" aria-selected="false">
-                                        <span>Charts</span>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a role="tab" class="nav-link active show" href="{% url 'list_kmtracker' %}" aria-selected="true">
-                                        <span>List</span>
-                                    </a>
-                                </li>
-                            </ul>
+
 </div>
 
 <div class="row">
@@ -90,11 +82,11 @@
             <form action="" method="get" class="form form-inline">
                 {% bootstrap_form filter.form layout='inline' %}
 
-                <a class="btn btn-outline-primary mr-left-5 filter-report" title="Search">
+                <button type="submit" class="btn btn-outline-primary mr-left-5 filter-report" title="Search">
                   <i style="font-weight:bolder" class="pe-7s-search"></i>
-                </a>
+                </button>
 
-                <a href="{% url 'dashboard_kmtracker' %}" title="Cancel"
+                <a href="{% url 'dashboard' %}" title="Cancel"
                  class="btn btn-outline-warning"><i class="fa fa-fw" aria-hidden="true"></i></a>
             </form>
             </div>
