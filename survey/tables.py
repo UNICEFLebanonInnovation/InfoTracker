@@ -15,6 +15,7 @@ class BootstrapTable(tables.Table):
 class MessageTable(BootstrapTable):
     relevant_link = tables.TemplateColumn(verbose_name='Relevant Link', orderable=False,
                                           template_name='django_tables2/link_column.html')
+    message = tables.Column(accessor='english_message', verbose_name='Messages')
 
     template = 'django_tables2/bootstrap.html'
 
@@ -27,7 +28,6 @@ class MessageTable(BootstrapTable):
             'adapted_by',
             'desired_output',
             'message_type',
-            'english_message',
-            'arabic_message',
+            'message',
             'relevant_link',
         )
